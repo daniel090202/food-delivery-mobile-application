@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:food_delivery_mobile_application/themes/colors.dart';
+import 'package:food_delivery_mobile_application/utilities/dimensions.dart';
 import 'package:food_delivery_mobile_application/widgets/big_text.dart';
 import 'package:food_delivery_mobile_application/widgets/small_text.dart';
 import 'package:food_delivery_mobile_application/widgets/text_with_icon.dart';
@@ -16,8 +18,8 @@ class _FoodPageState extends State<FoodPage> {
 
   double _currentPageValue = 0.0;
 
-  final double _height = 260;
   final double _scaleFactor = 0.8;
+  final double _height = Dimensions.pageViewContainer;
 
   @override
   void initState() {
@@ -39,22 +41,110 @@ class _FoodPageState extends State<FoodPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 320,
-      child: PageView.builder(
-          itemCount: 5,
-          controller: pageController,
-          itemBuilder: (context, position) {
-            return _buildPageItem(position);
-          }),
+    return Column(
+      children: [
+        // >>> Phần hiển thị main slider các sản phẩm:
+        SizedBox(
+          height: Dimensions.pageView,
+          child: PageView.builder(
+              itemCount: 5,
+              controller: pageController,
+              itemBuilder: (context, position) {
+                return _buildPageItem(position);
+              }),
+        ),
+        // >>> Hiển thị các indicators cho phần slider phía trên:
+        DotsIndicator(
+          dotsCount: 5,
+          position: _currentPageValue.floor(),
+          decorator: DotsDecorator(
+            size: Size.square(9.0),
+            activeSize: Size(18.0, 9.0),
+            activeColor: AppColors.primaryColor,
+            activeShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: Dimensions.height10,
+        ),
+        // >>> Tiêu đề của phần danh sách các sản phẩm bên dưới:
+        Container(
+          margin: EdgeInsets.only(
+            left: 20.0,
+            right: 20.0,
+          ),
+          child: Row(
+            children: [
+              BigText(
+                text: "Popular",
+              ),
+              SizedBox(
+                width: 20.0,
+              ),
+              Container(
+                margin: const EdgeInsets.only(
+                  bottom: 16,
+                ),
+                child: BigText(
+                  text: ".",
+                  size: 32.0,
+                  color: Colors.black26,
+                ),
+              ),
+              SizedBox(
+                width: 20.0,
+              ),
+              SmallText(
+                size: 14.0,
+                text: "Food pairing",
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 900.0,
+          child: ListView.builder(
+              itemCount: 10,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(
+                    left: 20.0,
+                    right: 20.0,
+                    bottom: 10.0,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 120.0,
+                        height: 120.0,
+                        decoration: BoxDecoration(
+                          color: Colors.white38,
+                          borderRadius: BorderRadius.circular(
+                            20.0,
+                          ),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage("assets/images/food0.png"),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }),
+        )
+      ],
     );
   }
 
   Widget _buildPageItem(int index) {
-    // >>> Điều kiện tạo hiệu ứng zoom in & zoom out khi scroll các thẻ sang trái hoặc sang phải:
-
     Matrix4 matrix4 = Matrix4.identity();
 
+    // >>> Điều kiện tạo hiệu ứng zoom in & zoom out khi scroll các thẻ sang trái hoặc sang phải:
+    // >>> Hiệu ứng khi phần tử mang index được hiển thị:
     if (index == _currentPageValue.floor()) {
       double currentScale =
           1 - (_currentPageValue - index) * (1 - _scaleFactor);
@@ -67,7 +157,9 @@ class _FoodPageState extends State<FoodPage> {
           currentTransform,
           0,
         );
-    } else if (index == _currentPageValue.floor() + 1) {
+    }
+    // >>> Hiệu ứng khi phần tử mang index + 1 được hiển thị:
+    else if (index == _currentPageValue.floor() + 1) {
       double currentScale =
           _scaleFactor + (_currentPageValue - index + 1) * (1 - _scaleFactor);
 
@@ -79,7 +171,9 @@ class _FoodPageState extends State<FoodPage> {
           currentTransform,
           0,
         );
-    } else if (index == _currentPageValue.floor() - 1) {
+    }
+    // >>> Hiệu ứng khi phần tử mang index - 1 được hiển thị:
+    else if (index == _currentPageValue.floor() - 1) {
       double currentScale =
           1 - (_currentPageValue - index) * (1 - _scaleFactor);
 
@@ -91,7 +185,9 @@ class _FoodPageState extends State<FoodPage> {
           currentTransform,
           0,
         );
-    } else {
+    }
+    // >>> Hiệu ứng mặc định nếu như các phần tử không nằm trong khung hiển thị sẽ mang chiều cao tương ứng 0.8:
+    else {
       double currentScale = 0.8;
 
       double currentTransform = _height * (1 - currentScale) / 2;
@@ -115,18 +211,20 @@ class _FoodPageState extends State<FoodPage> {
               right: 12.0,
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30.0),
-              color: index.isEven ? Color(0xFF69C5DF) : Color(0xFF9294CC),
+              borderRadius: BorderRadius.circular(
+                30.0,
+              ),
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: AssetImage("assets/images/food0.png"),
               ),
+              color: index.isEven ? Color(0xFF69C5DF) : Color(0xFF9294CC),
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 120,
+              height: Dimensions.pageViewTextContainer,
               margin: EdgeInsets.only(
                 left: 32.0,
                 right: 32.0,
@@ -134,7 +232,9 @@ class _FoodPageState extends State<FoodPage> {
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(
+                  20.0,
+                ),
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 5.0,
@@ -163,13 +263,14 @@ class _FoodPageState extends State<FoodPage> {
                     BigText(text: "Bitter Orange Marinade"),
                     SizedBox(height: 4),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Wrap(
                           children: List.generate(
                               5,
                               (index) => Icon(
-                                    size: 12,
                                     Icons.star,
+                                    size: Dimensions.iconSize24,
                                     color: AppColors.primaryColor,
                                   )),
                         ),

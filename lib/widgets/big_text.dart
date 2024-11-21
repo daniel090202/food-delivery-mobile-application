@@ -7,12 +7,13 @@ class BigText extends StatelessWidget {
 
   final Color? color;
 
-  const BigText(
-      {super.key,
-      this.size = 20,
-      required this.text,
-      this.color = const Color(0xFF332D2B),
-      this.overflow = TextOverflow.ellipsis});
+  const BigText({
+    super.key,
+    this.size = 20,
+    required this.text,
+    this.overflow = TextOverflow.ellipsis,
+    this.color = const Color(0xFF332D2B),
+  });
 
   @override
   Widget build(BuildContext context) {

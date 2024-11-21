@@ -54,7 +54,9 @@ class _MainFoodPageState extends State<MainFoodPage> {
                       height: 45,
                       decoration: BoxDecoration(
                         color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(
+                          15,
+                        ),
                       ),
                       child: Icon(
                         Icons.search,
@@ -66,7 +68,11 @@ class _MainFoodPageState extends State<MainFoodPage> {
               ),
             ),
             SizedBox(height: 10),
-            FoodPage(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: FoodPage(),
+              ),
+            ),
           ],
         ),
       ),
