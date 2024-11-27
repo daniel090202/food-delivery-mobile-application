@@ -67,7 +67,7 @@ class _FoodPageState extends State<FoodPage> {
           ),
         ),
         SizedBox(
-          height: Dimensions.height10,
+          height: Dimensions.height(10.0),
         ),
         // >>> Tiêu đề của phần danh sách các sản phẩm bên dưới:
         Container(
@@ -130,6 +130,26 @@ class _FoodPageState extends State<FoodPage> {
                             image: AssetImage("assets/images/food0.png"),
                           ),
                         ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(
+                                Dimensions.width(20.0),
+                              ),
+                              bottomRight: Radius.circular(
+                                Dimensions.width(20.0),
+                              ),
+                            ),
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.only(
+                            left: Dimensions.width(10.0),
+                          )),
+                        ),
                       )
                     ],
                   ),
@@ -140,6 +160,7 @@ class _FoodPageState extends State<FoodPage> {
     );
   }
 
+  // >>> Phương thức hiển thị mỗi phần tử trong phần banner với điều kiện cho các phần đang nằm trong khung hình hoặc nằm bên trái, phải của khung hình:
   Widget _buildPageItem(int index) {
     Matrix4 matrix4 = Matrix4.identity();
 
@@ -270,7 +291,7 @@ class _FoodPageState extends State<FoodPage> {
                               5,
                               (index) => Icon(
                                     Icons.star,
-                                    size: Dimensions.iconSize24,
+                                    size: Dimensions.width(24.0),
                                     color: AppColors.primaryColor,
                                   )),
                         ),

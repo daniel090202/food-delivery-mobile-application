@@ -1,4 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+bool isMobile(BuildContext context) {
+  return MediaQuery.of(context).size.height <= 600;
+}
 
 class Dimensions {
   // >>> Lấy ra chiều rộng và chiều cao của thiết bị bằng getX:
@@ -6,28 +11,25 @@ class Dimensions {
   static double screenHeight = Get.context!.height;
 
   // >>> Tỉ lệ scale cho màn hình thiết bị = chiều cao thiết bị / tỉ lệ màn thiết bị:
-  static final double mobileScaleRatio = screenHeight / 844;
-  static final double tabletScaleRatio = screenHeight / 1024;
+  static double widthMobileAspectRatio = screenWidth / 360;
+  static double heightMobileAspectRatio = screenHeight / 800;
+
+  static double widthTabletAspectRatio = screenWidth / 768;
+  static double heightTabletAspectRatio = screenHeight / 1024;
+
+  static double get widthAspectRatio =>
+      isMobile(Get.context!) ? widthMobileAspectRatio : widthTabletAspectRatio;
+
+  static double get heightAspectRatio => isMobile(Get.context!)
+      ? heightMobileAspectRatio
+      : heightTabletAspectRatio;
+
+  static double width(double value) => widthAspectRatio * value;
+
+  static double height(double value) => heightAspectRatio * value;
 
   // >>> Chiều cao cho các phần tử trong food_page.dart:
   static double pageView = screenHeight / 2.6;
   static double pageViewContainer = screenHeight / 3.4;
   static double pageViewTextContainer = screenHeight / 5.4;
-
-  static double height4 = mobileScaleRatio * 4;
-  static double height10 = mobileScaleRatio * 10;
-  static double height15 = mobileScaleRatio * 15;
-  static double height20 = mobileScaleRatio * 20;
-
-  static double weight4 = mobileScaleRatio * 4;
-  static double weight10 = mobileScaleRatio * 10;
-  static double weight15 = mobileScaleRatio * 15;
-  static double weight20 = mobileScaleRatio * 20;
-
-  static double font20 = mobileScaleRatio * 20;
-
-  static double radius20 = mobileScaleRatio * 20;
-  static double radius30 = mobileScaleRatio * 30;
-
-  static double iconSize24 = mobileScaleRatio * 24;
 }
