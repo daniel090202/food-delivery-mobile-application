@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:food_delivery_mobile_application/themes/colors.dart';
-import 'package:food_delivery_mobile_application/utilities/dimensions.dart';
 import 'package:food_delivery_mobile_application/widgets/big_text.dart';
 import 'package:food_delivery_mobile_application/widgets/small_text.dart';
+import 'package:food_delivery_mobile_application/utilities/dimensions.dart';
 import 'package:food_delivery_mobile_application/widgets/text_with_icon.dart';
 
 class FoodPage extends StatefulWidget {
@@ -146,9 +146,54 @@ class _FoodPageState extends State<FoodPage> {
                             ),
                           ),
                           child: Padding(
-                              padding: EdgeInsets.only(
-                            left: Dimensions.width(10.0),
-                          )),
+                            padding: EdgeInsets.only(
+                              left: Dimensions.width(10.0),
+                              right: Dimensions.width(10.0),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BigText(
+                                  text: "Nutritious fruit meal in China",
+                                ),
+                                SizedBox(
+                                  height: Dimensions.height(
+                                    10.0,
+                                  ),
+                                ),
+                                SmallText(
+                                  text: "With Chinese characteristics",
+                                ),
+                                SizedBox(
+                                  height: Dimensions.height(
+                                    10.0,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextWithIcon(
+                                      text: "Normal",
+                                      icon: Icons.circle_sharp,
+                                      iconColor: AppColors.iconColor,
+                                    ),
+                                    TextWithIcon(
+                                      text: "1.7 km",
+                                      icon: Icons.location_on,
+                                      iconColor: AppColors.primaryColor,
+                                    ),
+                                    TextWithIcon(
+                                      text: "32 min",
+                                      iconColor: AppColors.redColor,
+                                      icon: Icons.access_time_rounded,
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       )
                     ],
