@@ -73,6 +73,9 @@ class PopularFoodDetailPage extends StatelessWidget {
                     height: Dimensions.height(20.0),
                   ),
                   BigText(text: "Introduce"),
+                  SizedBox(
+                    height: Dimensions.height(20.0),
+                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: ExpandableText(
