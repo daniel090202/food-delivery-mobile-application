@@ -20,11 +20,9 @@ class CartController extends GetxController {
   int get totalItems {
     int totalQuantity = 0;
 
-    _items.forEach(
-      (key, value) {
-        totalQuantity += (value.quantity ?? 0);
-      },
-    );
+    _items.forEach((key, value) {
+      totalQuantity += (value.quantity ?? 0);
+    });
 
     return totalQuantity;
   }
@@ -49,44 +47,38 @@ class CartController extends GetxController {
     int totalQuantity = 0;
 
     if (_items.containsKey(product.id)) {
-      _items.update(
-        product.id ?? 0,
-        (value) {
-          totalQuantity = (value.quantity ?? 0) + quantity;
+      _items.update(product.id ?? 0, (value) {
+        totalQuantity = (value.quantity ?? 0) + quantity;
 
-          return CartModel(
-            id: value.id,
-            img: value.img,
-            name: value.name,
-            price: value.price,
-            isExist: true,
-            product: product,
-            time: DateTime.now().toString(),
-            quantity: (value.quantity ?? 0) + quantity,
-          );
-        },
-      );
+        return CartModel(
+          id: value.id,
+          img: value.img,
+          name: value.name,
+          price: value.price,
+          isExist: true,
+          product: product,
+          time: DateTime.now().toString(),
+          quantity: (value.quantity ?? 0) + quantity,
+        );
+      });
 
       if (totalQuantity <= 0) {
         _items.remove(product.id);
       }
     } else {
       if (quantity > 0) {
-        _items.putIfAbsent(
-          product.id ?? 0,
-          () {
-            return CartModel(
-              id: product.id,
-              img: product.img,
-              name: product.name,
-              price: product.price,
-              isExist: true,
-              product: product,
-              quantity: quantity,
-              time: DateTime.now().toString(),
-            );
-          },
-        );
+        _items.putIfAbsent(product.id ?? 0, () {
+          return CartModel(
+            id: product.id,
+            img: product.img,
+            name: product.name,
+            price: product.price,
+            isExist: true,
+            product: product,
+            quantity: quantity,
+            time: DateTime.now().toString(),
+          );
+        });
       } else {
         Get.snackbar(
           "Item count",
@@ -96,6 +88,8 @@ class CartController extends GetxController {
         );
       }
     }
+
+    cartRepository.addToCart(getItems);
 
     update();
   }

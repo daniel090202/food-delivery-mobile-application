@@ -11,4 +11,6 @@ class Constants {
   static const String IMAGE_UPLOAD_URI = "/uploads";
 
   static const String TOKEN = "1234567890";
+
+  static const String CART = "cart";
 }
